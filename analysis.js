@@ -1,24 +1,32 @@
+/* 
+ * Analysis Example
+ * Email export
+ * 
+ * Learn how to send an email with data in a .csv file attachment.
+ * 
+ * This analysis will read the variable fuel_level from your device,
+ * and send the values in a .csv file to an e-mail address
+ * 
+ * Instructions
+ * To run this analysis you need to add a device token and the e-mail to the environment variables.
+ * To do that, go to your device, then token and copy your token.
+ * Go the the analysis, then environment variables, 
+ * type device_token on key, and paste your token on value
+ * click the + button to add a new environment
+ * on key, type email and on value, type the e-mail address
+*/
+
 const Analysis = require('tago/analysis');
 const Utils    = require('tago/utils');
 const Device   = require('tago/device');
 const Service  = require('tago/services');
 
-// To run this analysis you need to add a device token to the environment variables,
-// To do that, go to your device, then token and copy your token.
-// Go the the analysis, then environment variables, 
-// add a new one and type device_token on key, and paste your token on value
-// Also you need to add the email to the environment,
-// Add a new environment, on key, type email and on value, type the e-mail address
-
-// This analysis reads the last value of the variable "water_level"
-// then the analysis multiplies the value by two and posts it as water_level_double
-
 // The function myAnalysis will run when you execute your analysis
 async function myAnalysis(context) {
   // reads the values from the environment and saves it in the variable env_vars
   const env_vars = Utils.env_to_obj(context.environment);
-  if (!env_vars.device_token) return context.log('Missing device_token environment variable');
-  if (!env_vars.email) return context.log("Missing email environment variable");
+  if (!env_vars.device_token) return context.log('device_token environment variable not found');
+  if (!env_vars.email) return context.log('email environment variable not found');
   
   const device = new Device(env_vars.device_token);
   
@@ -26,7 +34,7 @@ async function myAnalysis(context) {
   const fuel_list = await device.find({ variable: 'fuel_level', qty: 5 });
 
   // Create csv header
-  let csv = `Fuel Level`;
+  let csv = 'Fuel Level';
 
   // For each record in the fuel_list, add the value in the csv text.
   // Use \n to break the line.
