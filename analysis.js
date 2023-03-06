@@ -44,7 +44,7 @@ async function myAnalysis(context) {
     csv = `${csv},\n${item.value}`;
   }
 
-  // Print the csv text to the Tago analysis console, as a preview
+  // Print the csv text to the TagoIO analysis console, as a preview
   context.log(csv);
 
   // Start the email service
