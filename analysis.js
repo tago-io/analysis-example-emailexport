@@ -19,7 +19,7 @@
 const { Analysis, Device, Services, Utils } = require("@tago-io/sdk");
 
 // The function myAnalysis will run when you execute your analysis
-async function myAnalysis(context) {
+async function startAnalysis(context) {
   // reads the values from the environment and saves it in the variable env_vars
   const env_vars = Utils.envToJson(context.environment);
   if (!env_vars.device_token) {
@@ -64,7 +64,7 @@ async function myAnalysis(context) {
   context.log(service_response);
 }
 
-module.exports = new Analysis(myAnalysis);
+Analysis.use(startAnalysis);
 
 // To run analysis on your machine (external)
-// module.exports = new Analysis(myAnalysis, { token: "MY-ANALYSIS-TOKEN-HERE" });
+// Analysis.use(myAnalysis, { token: "YOUR-TOKEN" });
